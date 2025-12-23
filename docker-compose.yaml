@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  doctor-service:
+    build: ./doctor-service
+    ports:
+      - "3001:3001"
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "3003:3003"
+
+  appointment-service:
+    build: ./appointment-service
+    ports:
+      - "3002:3002"
+    environment:
+      DOCTOR_SERVICE_URL: http://doctor-service:3001
+      NOTIFICATION_SERVICE_URL: http://notification-service:3003
+    depends_on:
+      - doctor-service
+      - notification-service
